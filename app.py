@@ -6,6 +6,7 @@ import math
 # Khamis HJ, Roche AF. Pediatrics. 1994;94:504-507.
 # Erratum: Pediatrics. 1995;95:457.
 # ============================================================
+# Mlakar et al. (2023) Adult height prediction using the growth curve comparison method. https://doi.org/10.1371/journal.pone.0281960
 
 
 KR_BOYS = {
