@@ -2,13 +2,6 @@ from shiny import App, ui, render, reactive
 import math
 
 
-# Fonte:
-# Khamis HJ, Roche AF. Pediatrics. 1994;94:504-507.
-# Erratum: Pediatrics. 1995;95:457.
-# ============================================================
-# Mlakar et al. (2023) Adult height prediction using the growth curve comparison method. https://doi.org/10.1371/journal.pone.0281960
-
-
 KR_BOYS = {
     4.0:  (-10.2567, 1.23812, -0.0087235, 0.50286),
     4.5:  (-10.7190, 1.15964, -0.0074454, 0.52887),
@@ -193,10 +186,6 @@ def predict_khamis_roche(
     }
 
 
-# ============================================================
-# SHINY UI
-# ============================================================
-
 app_ui = ui.page_sidebar(
     ui.sidebar(
         ui.h4("Dati del soggetto"),
@@ -380,10 +369,6 @@ app_ui = ui.page_sidebar(
 )
 
 
-# ============================================================
-# SERVER
-# ============================================================
-
 def server(input, output, session):
 
     @reactive.calc
@@ -456,27 +441,50 @@ def server(input, output, session):
     @reactive.calc
     def calcola_fransen():
         try:
-            altezza = float(input.altezza())
-            peso = float(input.peso())
-            eta = float(input.eta())
-            sesso = input.sesso()
+            altezza = float(input.altezza())       # in cm
+            peso = float(input.peso())             # in kg
+            eta = float(input.eta())               # in anni decimali
+            sesso = input.sesso()                  # "M" o "F"
+        
+        # Il modello di Fransen richiede esplicitamente la lunghezza delle gambe in cm.
+        # Spesso calcolata come: altezza totale - altezza da seduto
+        lunghezza_gamba = float(input.lunghezza_gamba())
 
             if sesso == "M":
-                offset = -7.85 + (0.0192 * peso) + (0.0693 * altezza / 100)
+                # Calcolo del Maturity Ratio (Fransen et al., 2018)
+                maturity_ratio = (
+                    6.986547255416 
+                    + (0.115802846632 * eta) 
+                    + (0.001450825199 * (eta ** 2)) 
+                    + (0.004518400406 * peso) 
+                    - (0.000034086447 * (peso ** 2)) 
+                    - (0.151951447289 * altezza) 
+                    + (0.000932836659 * (altezza ** 2)) 
+                    - (0.000001656585 * (altezza ** 3)) 
+                    + (0.032198263733 * lunghezza_gamba) 
+                    - (0.000269025264 * (lunghezza_gamba ** 2)) 
+                    - (0.000760897942 * (altezza * eta))
+                )
             else:
-                offset = -7.25 + (0.0213 * peso) + (0.0647 * altezza / 100)
+                raise ValueError("L'algoritmo di Fransen (2018) è validato solo per i maschi.")
 
-            phv_age = eta - offset
+            phv_age = eta / maturity_ratio
+        
+            # 2. Calcola il Maturity Offset (Età attuale - Età al PHV)
+            # Risultato negativo = pre-PHV; Positivo = post-PHV
+            offset = eta - phv_age
 
             return {
-                "offset": offset,
-                "phv_age": phv_age,
-                "metodo": "Fransen et al. (2018)",
+                "maturity_ratio": round(maturity_ratio, 4),
+                "offset": round(offset, 4),
+                "phv_age": round(phv_age, 4),
+                "metodo": "Fransen et al. (2018)"
             }
 
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, AttributeError) as e:
+            print(f"Errore nel calcolo: {e}")
             return None
-
+    
 
     @reactive.calc
     def calcola_khamis_roche():
