@@ -431,14 +431,15 @@ def server(input, output, session):
     @reactive.calc
     def calcola_moore():
         try:
+            altezza = float(input.altezza())
             altezza_seduto = float(input.altezza_seduto())
             eta = float(input.eta())
             sesso = input.sesso()
 
             if sesso == "M":
-                offset = -7.999994 - (0.0036124 * eta * altezza_seduto)
+                offset = -8.128741 - 0.2683693 + (0.0070346 * eta * altezza_seduto)
             else:
-                offset = -7.709133 + (0.0042232 * eta * altezza_seduto)
+                offset = -7.709133 + (0.0042232 * eta * altezza)
 
             phv_age = eta - offset
 
