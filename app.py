@@ -441,14 +441,11 @@ def server(input, output, session):
     @reactive.calc
     def calcola_fransen():
         try:
-            altezza = float(input.altezza())       # in cm
-            peso = float(input.peso())             # in kg
-            eta = float(input.eta())               # in anni decimali
-            sesso = input.sesso()                  # "M" o "F"
-        
-        # Il modello di Fransen richiede esplicitamente la lunghezza delle gambe in cm.
-        # Spesso calcolata come: altezza totale - altezza da seduto
-        lunghezza_gamba = float(input.lunghezza_gamba())
+            altezza = float(input.altezza())       
+            peso = float(input.peso())            
+            eta = float(input.eta())             
+            sesso = input.sesso()                
+            lunghezza_gamba = float(input.lunghezza_gamba())
 
             if sesso == "M":
                 # Calcolo del Maturity Ratio (Fransen et al., 2018)
