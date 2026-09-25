@@ -558,10 +558,6 @@ def server(input, output, session):
             return None
 
 
-    # --------------------------------------------------------
-    # OUTPUT PHV
-    # --------------------------------------------------------
-
     @output
     @render.text
     def phv_mirwald():
@@ -606,10 +602,6 @@ def server(input, output, session):
 
         return "Dati insufficienti per il calcolo"
 
-
-    # --------------------------------------------------------
-    # OUTPUT MATURITY OFFSET
-    # --------------------------------------------------------
 
     @output
     @render.text
@@ -661,10 +653,6 @@ def server(input, output, session):
 
         return "Dati insufficienti per il calcolo"
 
-
-    # --------------------------------------------------------
-    # OUTPUT ALTEZZA ADULTA
-    # --------------------------------------------------------
 
     @output
     @render.text
