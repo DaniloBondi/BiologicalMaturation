@@ -772,15 +772,14 @@ app_ui = ui.page_sidebar(
                         "Software Growth4 della Società Italiana di Endocrinologia e Diabetologia Pediatrica",
                         href="https://www.weboriented.it/gh4/downloads/index.php",
                         target="_blank",
-                        style="font-size: 0.8rem; font-weight: 500; color: #2E86AB; text-decoration: none; margin-bottom: 20px; display: inline-block; padding: 8px 15px; border-radius: 8px; background-color: #E8F4F8; transition: all 0.3s ease;"
+                        style="font-size: 0.9rem; font-weight: 600; color: #2E86AB; text-decoration: none; margin-bottom: 20px; display: inline-block; padding: 8px 15px; border-radius: 8px; background-color: #E8F4F8; transition: all 0.3s ease;"
                 ),
             ),
             
             ui.card(
+                ui.card_header("Metodi"),
                 ui.markdown(
                     """
-                    
-                    ### Metodi di Misurazione Richiesti
 
                     **1. Altezza (standing height)**
                     - Misurazione in posizione eretta con stadiometro
