@@ -157,9 +157,6 @@ def _table_from_months(values):
     """
     return {month / 12: m for month, m in enumerate(values)}
 
-
-# Moltiplicatori per la lunghezza degli arti inferiori.
-# Una riga per anno di età (12 valori = 12 mesi); l'ultimo valore è a 17 anni (204 mesi).
 _LOWER_LIMB_BOYS_MONTHLY = [
     5.080, 4.927, 4.773, 4.620, 4.467, 4.313, 4.160, 4.007, 3.853, 3.700, 3.547, 3.393,  # 0
     3.240, 3.186, 3.132, 3.078, 3.023, 2.969, 2.915, 2.861, 2.807, 2.753, 2.698, 2.644,  # 1
@@ -206,14 +203,10 @@ _LOWER_LIMB_GIRLS_MONTHLY = [
 LOWER_LIMB_MULTIPLIER_BOYS = _table_from_months(_LOWER_LIMB_BOYS_MONTHLY)
 LOWER_LIMB_MULTIPLIER_GIRLS = _table_from_months(_LOWER_LIMB_GIRLS_MONTHLY)
 
-
-# Intervalli di età (anni) entro cui i metodi PHV sono stati sviluppati.
-# Fuori intervallo il calcolo viene eseguito, ma con un avviso.
-# Valori indicativi: modificali se i paper originali indicano range diversi.
 ETA_VALIDITA_PHV = {
-    "mirwald": (8.0, 16.0),
-    "moore": (8.0, 16.0),
-    "fransen": (8.0, 16.0),
+    "mirwald": (8.0, 17.0),
+    "moore": (8.0, 17.0),
+    "fransen": (8.0, 17.0),
 }
 
 # Limiti accettati per gli input (coerenti con min/max dei campi nella UI).
@@ -777,12 +770,13 @@ app_ui = ui.page_sidebar(
                 ui.markdown(
                     """
                     ### Risorse
+                    ui.a(
+                            "Software Growth4 della Società Italiana di Endocrinologia e Diabetologia Pediatrica →",
+                            href="https://www.weboriented.it/gh4/downloads/index.php",
+                            target="_blank",
+                            style="font-size: 1.8rem; font-weight: 600; color: #2E86AB; text-decoration: none; margin-bottom: 20px; display: inline-block; padding: 10px 20px; border-radius: 8px; background-color: #E8F4F8; transition: all 0.3s ease;"
+                        ),
 
-                    "Software Growth4 della Società Italiana di Endocrinologia e Diabetologia Pediatrica →",
-                                href="https://www.weboriented.it/gh4/downloads/index.php",
-                                target="_blank",
-                                style="display: inline-block; padding: 10px 20px; background-color: #2E86AB; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background-color 0.3s ease;"
-                    
                     ### Metodi di Misurazione Richiesti
 
                     **1. Altezza (standing height)**
