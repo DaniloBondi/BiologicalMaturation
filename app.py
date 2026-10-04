@@ -66,6 +66,88 @@ KR_GIRLS = {
 }
 
 
+# Mills & Nelson (2016) Multiplier method coefficients
+MILLS_NELSON_BOYS = {
+    0.00: 3.535, 0.08: 3.435, 0.17: 3.335, 0.25: 3.236, 0.33: 3.136, 0.42: 3.036,
+    0.50: 2.936, 0.58: 2.836, 0.67: 2.736, 0.75: 2.637, 0.83: 2.537, 0.92: 2.437,
+    1.00: 2.337, 1.08: 2.313, 1.17: 2.288, 1.25: 2.264, 1.33: 2.240, 1.42: 2.215,
+    1.50: 2.191, 1.58: 2.167, 1.67: 2.142, 1.75: 2.118, 1.83: 2.094, 1.92: 2.069,
+    2.00: 2.045, 2.08: 2.030, 2.17: 2.014, 2.25: 1.999, 2.33: 1.983, 2.42: 1.968,
+    2.50: 1.952, 2.58: 1.937, 2.67: 1.921, 2.75: 1.906, 2.83: 1.890, 2.92: 1.875,
+    3.00: 1.859, 3.08: 1.848, 3.17: 1.838, 3.25: 1.827, 3.33: 1.816, 3.42: 1.806,
+    3.50: 1.795, 3.58: 1.784, 3.67: 1.774, 3.75: 1.763, 3.83: 1.752, 3.92: 1.742,
+    4.00: 1.731, 4.08: 1.722, 4.17: 1.714, 4.25: 1.705, 4.33: 1.696, 4.42: 1.688,
+    4.50: 1.679, 4.58: 1.670, 4.67: 1.662, 4.75: 1.653, 4.83: 1.644, 4.92: 1.636,
+    5.00: 1.627, 5.08: 1.619, 5.17: 1.612, 5.25: 1.604, 5.33: 1.596, 5.42: 1.589,
+    5.50: 1.581, 5.58: 1.573, 5.67: 1.566, 5.75: 1.558, 5.83: 1.550, 5.92: 1.543,
+    6.00: 1.535, 6.08: 1.528, 6.17: 1.522, 6.25: 1.515, 6.33: 1.508, 6.42: 1.502,
+    6.50: 1.495, 6.58: 1.488, 6.67: 1.482, 6.75: 1.475, 6.83: 1.468, 6.92: 1.462,
+    7.00: 1.455, 7.08: 1.449, 7.17: 1.443, 7.25: 1.437, 7.33: 1.431, 7.42: 1.425,
+    7.50: 1.419, 7.58: 1.413, 7.67: 1.407, 7.75: 1.401, 7.83: 1.395, 7.92: 1.389,
+    8.00: 1.383, 8.08: 1.378, 8.17: 1.373, 8.25: 1.368, 8.33: 1.363, 8.42: 1.358,
+    8.50: 1.353, 8.58: 1.347, 8.67: 1.342, 8.75: 1.337, 8.83: 1.332, 8.92: 1.327,
+    9.00: 1.322, 9.08: 1.318, 9.17: 1.315, 9.25: 1.311, 9.33: 1.307, 9.42: 1.304,
+    9.50: 1.300, 9.58: 1.296, 9.67: 1.293, 9.75: 1.289, 9.83: 1.285, 9.92: 1.282,
+    10.00: 1.278, 10.08: 1.274, 10.17: 1.271, 10.25: 1.267, 10.33: 1.264, 10.42: 1.260,
+    10.50: 1.257, 10.58: 1.253, 10.67: 1.249, 10.75: 1.246, 10.83: 1.242, 10.92: 1.239,
+    11.00: 1.235, 11.08: 1.231, 11.17: 1.227, 11.25: 1.223, 11.33: 1.219, 11.42: 1.215,
+    11.50: 1.211, 11.58: 1.206, 11.67: 1.202, 11.75: 1.198, 11.83: 1.194, 11.92: 1.190,
+    12.00: 1.186, 12.08: 1.182, 12.17: 1.178, 12.25: 1.173, 12.33: 1.169, 12.42: 1.165,
+    12.50: 1.161, 12.58: 1.156, 12.67: 1.152, 12.75: 1.148, 12.83: 1.144, 12.92: 1.139,
+    13.00: 1.135, 13.08: 1.131, 13.17: 1.126, 13.25: 1.122, 13.33: 1.117, 13.42: 1.113,
+    13.50: 1.108, 13.58: 1.104, 13.67: 1.099, 13.75: 1.095, 13.83: 1.090, 13.92: 1.086,
+    14.00: 1.081, 14.08: 1.078, 14.17: 1.075, 14.25: 1.072, 14.33: 1.069, 14.42: 1.066,
+    14.50: 1.063, 14.58: 1.059, 14.67: 1.056, 14.75: 1.053, 14.83: 1.050, 14.92: 1.047,
+    15.00: 1.044, 15.08: 1.042, 15.17: 1.040, 15.25: 1.038, 15.33: 1.036, 15.42: 1.034,
+    15.50: 1.033, 15.58: 1.031, 15.67: 1.029, 15.75: 1.027, 15.83: 1.025, 15.92: 1.023,
+    16.00: 1.021, 16.08: 1.020, 16.17: 1.019, 16.25: 1.018, 16.33: 1.017, 16.42: 1.016,
+    16.50: 1.016, 16.58: 1.015, 16.67: 1.014, 16.75: 1.013, 16.83: 1.012, 16.92: 1.011,
+    17.00: 1.010, 17.08: 1.010, 17.17: 1.009, 17.25: 1.009, 17.33: 1.008, 17.42: 1.008,
+    17.50: 1.008, 17.58: 1.007, 17.67: 1.007, 17.75: 1.006, 17.83: 1.006, 17.92: 1.005,
+    18.00: 1.005,
+}
+
+MILLS_NELSON_GIRLS = {
+    0.00: 3.290, 0.08: 3.201, 0.17: 3.111, 0.25: 3.022, 0.33: 2.932, 0.42: 2.843,
+    0.50: 2.753, 0.58: 1.965, 0.67: 2.574, 0.75: 2.485, 0.83: 2.395, 0.92: 2.306,
+    1.00: 2.216, 1.08: 2.190, 1.17: 2.166, 1.25: 2.141, 1.33: 2.116, 1.42: 2.091,
+    1.50: 2.067, 1.58: 2.042, 1.67: 2.017, 1.75: 1.992, 1.83: 1.967, 1.92: 1.942,
+    2.00: 1.917, 2.08: 1.902, 2.17: 1.887, 2.25: 1.987, 2.33: 1.856, 2.42: 1.841,
+    2.50: 1.826, 2.58: 1.811, 2.67: 1.796, 2.75: 1.781, 2.83: 1.765, 2.92: 1.750,
+    3.00: 1.735, 3.08: 1.726, 3.17: 1.716, 3.25: 1.707, 3.33: 1.697, 3.42: 1.688,
+    3.50: 1.679, 3.58: 1.669, 3.67: 1.660, 3.75: 1.650, 3.83: 1.641, 3.92: 1.631,
+    4.00: 1.622, 4.08: 1.613, 4.17: 1.604, 4.25: 1.595, 4.33: 1.586, 4.42: 1.577,
+    4.50: 1.568, 4.58: 1.559, 4.67: 1.550, 4.75: 1.541, 4.83: 1.532, 4.92: 1.523,
+    5.00: 1.514, 5.08: 1.506, 5.17: 1.499, 5.25: 1.491, 5.33: 1.483, 5.42: 1.475,
+    5.50: 1.468, 5.58: 1.460, 5.67: 1.452, 5.75: 1.444, 5.83: 1.437, 5.92: 1.429,
+    6.00: 1.421, 6.08: 1.414, 6.17: 1.408, 6.25: 1.401, 6.33: 1.394, 6.42: 1.388,
+    6.50: 1.381, 6.58: 1.374, 6.67: 1.368, 6.75: 1.361, 6.83: 1.354, 6.92: 1.348,
+    7.00: 1.341, 7.08: 1.336, 7.17: 1.331, 7.25: 1.326, 7.33: 1.320, 7.42: 1.315,
+    7.50: 1.310, 7.58: 1.305, 7.67: 1.300, 7.75: 1.295, 7.83: 1.289, 7.92: 1.284,
+    8.00: 1.279, 8.08: 1.275, 8.17: 1.271, 8.25: 1.267, 8.33: 1.262, 8.42: 1.258,
+    8.50: 1.254, 8.58: 1.250, 8.67: 1.246, 8.75: 1.242, 8.83: 1.237, 8.92: 1.233,
+    9.00: 1.229, 9.08: 1.225, 9.17: 1.221, 9.25: 1.218, 9.33: 1.214, 9.42: 1.210,
+    9.50: 1.206, 9.58: 1.202, 9.67: 1.198, 9.75: 1.195, 9.83: 1.191, 9.92: 1.187,
+    10.00: 1.183, 10.08: 1.179, 10.17: 1.175, 10.25: 1.171, 10.33: 1.167, 10.42: 1.163,
+    10.50: 1.159, 10.58: 1.155, 10.67: 1.151, 10.75: 1.147, 10.83: 1.143, 10.92: 1.139,
+    11.00: 1.135, 11.08: 1.131, 11.17: 1.126, 11.25: 1.122, 11.33: 1.117, 11.42: 1.113,
+    11.50: 1.109, 11.58: 1.104, 11.67: 1.100, 11.75: 1.095, 11.83: 1.091, 11.92: 1.086,
+    12.00: 1.082, 12.08: 1.079, 12.17: 1.075, 12.25: 1.072, 12.33: 1.068, 12.42: 1.065,
+    12.50: 1.061, 12.58: 1.058, 12.67: 1.054, 12.75: 1.051, 12.83: 1.047, 12.92: 1.044,
+    13.00: 1.040, 13.08: 1.038, 13.17: 1.037, 13.25: 1.035, 13.33: 1.033, 13.42: 1.031,
+    13.50: 1.030, 13.58: 1.028, 13.67: 1.026, 13.75: 1.024, 13.83: 1.023, 13.92: 1.021,
+    14.00: 1.019, 14.08: 1.018, 14.17: 1.017, 14.25: 1.016, 14.33: 1.015, 14.42: 1.014,
+    14.50: 1.014, 14.58: 1.013, 14.67: 1.012, 14.75: 1.011, 14.83: 1.010, 14.92: 1.009,
+    15.00: 1.008, 15.08: 1.008, 15.17: 1.007, 15.25: 1.007, 15.33: 1.007, 15.42: 1.006,
+    15.50: 1.006, 15.58: 1.006, 15.67: 1.005, 15.75: 1.005, 15.83: 1.005, 15.92: 1.004,
+    16.00: 1.004, 16.08: 1.004, 16.17: 1.004, 16.25: 1.004, 16.33: 1.003, 16.42: 1.003,
+    16.50: 1.003, 16.58: 1.003, 16.67: 1.003, 16.75: 1.003, 16.83: 1.002, 16.92: 1.002,
+    17.00: 1.002, 17.08: 1.000, 17.17: 1.000, 17.25: 1.000, 17.33: 1.000, 17.42: 1.000,
+    17.50: 1.000, 17.58: 1.000, 17.67: 1.000, 17.75: 1.000, 17.83: 1.000, 17.92: 1.000,
+    18.00: 1.000,
+}
+
+
 def _interpolate_coefficients(age, table):
     """Linear interpolation between the published half-year rows."""
     ages = sorted(table)
@@ -86,6 +168,24 @@ def _interpolate_coefficients(age, table):
         fraction * (table[upper][i] - table[lower][i])
         for i in range(4)
     )
+
+
+def _interpolate_multiplier(age, table):
+    """Linear interpolation for Mills & Nelson multiplier coefficients."""
+    ages = sorted(table)
+
+    if age < ages[0] or age > ages[-1]:
+        return None
+
+    if age in table:
+        return table[age]
+
+    lower = max(a for a in ages if a < age)
+    upper = min(a for a in ages if a > age)
+
+    fraction = (age - lower) / (upper - lower)
+
+    return table[lower] + fraction * (table[upper] - table[lower])
 
 
 def predict_khamis_roche(
@@ -181,6 +281,59 @@ def predict_khamis_roche(
         "percent_adult": percent_adult,
         "midparent_cm": midparent_in * 2.54,
         "coefficients": coefficients,
+        "age": age_years,
+        "sex": sex,
+    }
+
+
+def predict_mills_nelson_multiplier(height_cm, age_years, sex):
+    """
+    Mills & Nelson (2016) Multiplier method for adult height prediction.
+
+    Input:
+        height_cm              current standing height
+        age_years              chronological age
+        sex                    "M" or "F"
+
+    Output:
+        dict or None if age is outside the model range.
+    """
+
+    if height_cm is None or age_years is None:
+        return None
+
+    try:
+        height_cm = float(height_cm)
+        age_years = float(age_years)
+    except (TypeError, ValueError):
+        return None
+
+    if height_cm <= 0 or age_years < 0:
+        return None
+
+    sex = str(sex).upper()
+
+    if sex not in ("M", "F"):
+        return None
+
+    table = MILLS_NELSON_BOYS if sex == "M" else MILLS_NELSON_GIRLS
+    multiplier = _interpolate_multiplier(age_years, table)
+
+    if multiplier is None:
+        return {
+            "valid": False,
+            "reason": (
+                "Il metodo dei moltiplicatori è applicabile "
+                "nell'intervallo 0.0–18.0 anni."
+            ),
+        }
+
+    predicted_cm = height_cm * multiplier
+
+    return {
+        "valid": True,
+        "predicted_cm": predicted_cm,
+        "multiplier": multiplier,
         "age": age_years,
         "sex": sex,
     }
@@ -320,8 +473,8 @@ app_ui = ui.page_sidebar(
             ),
 
             ui.card(
-                ui.card_header("Metodo Bayley-Pinneau (Semplificato)"),
-                ui.output_text_verbatim("altezza_bayley"),
+                ui.card_header("Multiplier Method"),
+                ui.output_text_verbatim("altezza_mills_nelson"),
             ),
         ),
 
@@ -517,45 +670,12 @@ def server(input, output, session):
 
 
     @reactive.calc
-    def calcola_bayley_pinneau():
-        try:
-            altezza = float(input.altezza())
-            eta = float(input.eta())
-            sesso = input.sesso()
-
-            if sesso == "M":
-                if eta < 10:
-                    perc_completata = 0.70
-                elif eta < 12:
-                    perc_completata = 0.78
-                elif eta < 14:
-                    perc_completata = 0.85
-                elif eta < 16:
-                    perc_completata = 0.92
-                else:
-                    perc_completata = 0.97
-            else:
-                if eta < 9:
-                    perc_completata = 0.75
-                elif eta < 11:
-                    perc_completata = 0.84
-                elif eta < 13:
-                    perc_completata = 0.91
-                elif eta < 15:
-                    perc_completata = 0.96
-                else:
-                    perc_completata = 0.99
-
-            altezza_prevista = altezza / perc_completata
-
-            return {
-                "altezza_prevista": altezza_prevista,
-                "perc_completata": perc_completata * 100,
-                "metodo": "Bayley-Pinneau",
-            }
-
-        except (TypeError, ValueError, ZeroDivisionError):
-            return None
+    def calcola_mills_nelson():
+        return predict_mills_nelson_multiplier(
+            height_cm=input.altezza(),
+            age_years=input.eta(),
+            sex=input.sesso(),
+        )
 
 
     @output
@@ -695,20 +815,23 @@ def server(input, output, session):
 
     @output
     @render.text
-    def altezza_bayley():
-        r = calcola_bayley_pinneau()
+    def altezza_mills_nelson():
+        r = calcola_mills_nelson()
 
-        if r:
-            return (
-                f"Altezza prevista da adulto: "
-                f"{r['altezza_prevista']:.1f} cm\n"
-                f"Crescita completata: "
-                f"{r['perc_completata']:.1f}%\n"
-                f"Metodo: {r['metodo']}\n"
-                f"(Versione semplificata; normalmente richiede età ossea)"
-            )
+        if not r:
+            return "Dati insufficienti per il calcolo"
 
-        return "Dati insufficienti per il calcolo"
+        if not r.get("valid", False):
+            return r["reason"]
+
+        return (
+            f"Altezza prevista da adulto: {r['predicted_cm']:.1f} cm\n"
+            f"Moltiplicatore (M): {r['multiplier']:.4f}\n"
+            f"Altezza attuale: {input.altezza():.1f} cm\n"
+            f"Metodo: Moltiplicatore di Bailey et al. (2000) "
+            f"secondo versione aggiornata da Mills & Nelson (2016)\n"
+            f"Formula: Altezza prevista = Altezza attuale × M"
+        )
 
 
 app = App(app_ui, server)
