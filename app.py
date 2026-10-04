@@ -776,9 +776,16 @@ app_ui = ui.page_sidebar(
             ui.card(
                 ui.markdown(
                     """
+                    ### Risorse
+
+                    "Software Growth4 della Società Italiana di Endocrinologia e Diabetologia Pediatrica →",
+                                href="https://www.weboriented.it/gh4/downloads/index.php",
+                                target="_blank",
+                                style="display: inline-block; padding: 10px 20px; background-color: #2E86AB; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background-color 0.3s ease;"
+                    
                     ### Metodi di Misurazione Richiesti
 
-                    **1. Altezza (Statura)**
+                    **1. Altezza (standing height)**
                     - Misurazione in posizione eretta con stadiometro
                     - Soggetto scalzo, talloni uniti, schiena dritta
                     - Testa in posizione di Francoforte
@@ -790,55 +797,22 @@ app_ui = ui.page_sidebar(
                     - Misurazione al mattino preferibilmente
                     - Precisione: ±0.1 kg
 
-                    **3. Altezza da Seduto**
+                    **3. Altezza da seduti (sitting height)**
                     - Soggetto seduto con schiena dritta
                     - Misurazione dalla sommità del capo alla superficie di seduta
 
-                    **4. Lunghezza degli Arti Inferiori**
+                    **4. Lunghezza degli arti inferiori (subischial leg length)**
                     - Calcolata automaticamente: altezza − altezza da seduto
-                    - Non va inserita manualmente
 
-                    **5. Altezza dei Genitori**
+                    **5. Altezza dei genitori**
                     - Necessaria per Khamis-Roche e per la media genitoriale
                     - Meglio se misurata: le altezze dichiarate dai genitori
-                      tendono a essere sovrastimate
+                      tendono a essere sovrastimate; 
 
-                    ### Dettaglio dei calcoli: Indice di Cormic
-
+                    **6. Indice di Cormic**
                     L'indice di Cormic è il rapporto percentuale tra altezza
-                    da seduto e altezza totale.
+                    da seduto e altezza totale (o SH/H).
 
-                    **Indice di Cormic attuale** (misure reali)
-                    - `Indice attuale = altezza da seduto / altezza × 100`
-                    - Usa i valori inseriti nella barra laterale
-                    - Nessuna classificazione del morfotipo
-
-                    **Indice di Cormic stimato da adulto** (valori target)
-                    - Passo 1: altezza target da adulti = valore predetto dal
-                      metodo Khamis-Roche (4.0–17.5 anni)
-                    - Passo 2: lunghezza attuale degli arti inferiori =
-                      altezza − altezza da seduto
-                    - Passo 3: lunghezza target degli arti inferiori =
-                      lunghezza attuale × M, dove M è il moltiplicatore per
-                      sesso ed età (Multiplier Method per gli arti inferiori,
-                      0–17 anni, interpolazione lineare tra i valori mensili)
-                    - Passo 4: altezza target da seduti = altezza target −
-                      lunghezza target degli arti inferiori
-                    - Passo 5: `Indice stimato = altezza target da seduti /
-                      altezza target × 100`
-
-                    **Classificazione del morfotipo** (solo sull'indice stimato da adulto)
-                    - Sotto 51%: LONGILINEO
-                    - Da 51% a 53% inclusi: NORMOLINEO
-                    - Sopra 53%: BREVILINEO
-
-                    **Esempio numerico** (valori predefiniti dell'app, maschio di 10 anni)
-                    - Indice attuale: 70.0 / 140.0 × 100 = 50.0%
-                    - Lunghezza attuale degli arti inferiori: 140.0 − 70.0 = 70.0 cm
-                    - Lunghezza target degli arti inferiori: 70.0 × 1.31 = 91.7 cm
-                    - Altezza target da adulti (Khamis-Roche): 178.9 cm
-                    - Altezza target da seduti: 178.9 − 91.7 = 87.2 cm
-                    - Indice stimato: 87.2 / 178.9 × 100 = 48.7% → LONGILINEO
 
                     ### Note
                     - Tutte le misurazioni devono essere effettuate correttamente.
