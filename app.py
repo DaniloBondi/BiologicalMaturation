@@ -504,6 +504,74 @@ def predict_lower_limb_target(leg_length_cm, age_years, sex):
     }
 
 
+# Soglie (in %) per la classificazione del morfotipo con l'indice di Cormic.
+CORMIC_LONGILINEO_MAX = 51.0   # < 51        -> LONGILINEO
+CORMIC_NORMOLINEO_MAX = 53.0   # 51 – 53     -> NORMOLINEO; > 53 -> BREVILINEO
+
+
+def classifica_morfotipo(indice):
+    """Classifica il morfotipo in base all'indice di Cormic (%)."""
+    if indice < CORMIC_LONGILINEO_MAX:
+        return "LONGILINEO"
+
+    if indice <= CORMIC_NORMOLINEO_MAX:
+        return "NORMOLINEO"
+
+    return "BREVILINEO"
+
+
+def calcola_indice_cormic(altezza_target_cm, arti_inferiori_target_cm):
+    """
+    Indice di Cormic = altezza target da seduti / altezza target totale * 100
+
+    L'altezza target da seduti si ottiene come differenza tra l'altezza
+    target da adulti e la lunghezza target degli arti inferiori.
+
+    Output:
+        dict or None se i valori non sono coerenti.
+    """
+
+    if altezza_target_cm is None or arti_inferiori_target_cm is None:
+        return None
+
+    altezza_seduti_cm = altezza_target_cm - arti_inferiori_target_cm
+
+    if altezza_target_cm <= 0 or altezza_seduti_cm <= 0:
+        return None
+
+    indice = altezza_seduti_cm / altezza_target_cm * 100
+
+    return {
+        "indice": indice,
+        "altezza_seduti_cm": altezza_seduti_cm,
+        "morfotipo": classifica_morfotipo(indice),
+    }
+
+
+def calcola_indice_cormic_attuale(altezza_cm, altezza_seduto_cm):
+    """
+    Indice di Cormic attuale = altezza da seduto / altezza * 100
+
+    Calcolato sulle misure reali. Nessuna classificazione del morfotipo:
+    questa è prevista solo per l'indice stimato da adulto.
+
+    Output:
+        dict or None se i valori non sono validi.
+    """
+
+    if altezza_cm is None or altezza_seduto_cm is None:
+        return None
+
+    if altezza_cm <= 0 or altezza_seduto_cm <= 0 or altezza_seduto_cm >= altezza_cm:
+        return None
+
+    return {
+        "indice": altezza_seduto_cm / altezza_cm * 100,
+        "altezza_cm": altezza_cm,
+        "altezza_seduto_cm": altezza_seduto_cm,
+    }
+
+
 def _testo_phv(r):
     """Testo per le schede 'Peak Height Velocity'."""
     if r is None:
@@ -689,6 +757,20 @@ app_ui = ui.page_sidebar(
         ),
 
         ui.nav_panel(
+            "Morfotipo",
+
+            ui.card(
+                ui.card_header("Indice di Cormic attuale"),
+                ui.output_text_verbatim("indice_cormic_attuale"),
+            ),
+
+            ui.card(
+                ui.card_header("Indice di Cormic stimato da adulto"),
+                ui.output_text_verbatim("indice_cormic"),
+            ),
+        ),
+
+        ui.nav_panel(
             "Metodi di Misurazione",
 
             ui.card(
@@ -721,6 +803,43 @@ app_ui = ui.page_sidebar(
                     - Meglio se misurata: le altezze dichiarate dai genitori
                       tendono a essere sovrastimate
 
+                    ### Dettaglio dei calcoli: Indice di Cormic
+
+                    L'indice di Cormic è il rapporto percentuale tra altezza
+                    da seduto e altezza totale.
+
+                    **Indice di Cormic attuale** (misure reali)
+                    - `Indice attuale = altezza da seduto / altezza × 100`
+                    - Usa i valori inseriti nella barra laterale
+                    - Nessuna classificazione del morfotipo
+
+                    **Indice di Cormic stimato da adulto** (valori target)
+                    - Passo 1: altezza target da adulti = valore predetto dal
+                      metodo Khamis-Roche (4.0–17.5 anni)
+                    - Passo 2: lunghezza attuale degli arti inferiori =
+                      altezza − altezza da seduto
+                    - Passo 3: lunghezza target degli arti inferiori =
+                      lunghezza attuale × M, dove M è il moltiplicatore per
+                      sesso ed età (Multiplier Method per gli arti inferiori,
+                      0–17 anni, interpolazione lineare tra i valori mensili)
+                    - Passo 4: altezza target da seduti = altezza target −
+                      lunghezza target degli arti inferiori
+                    - Passo 5: `Indice stimato = altezza target da seduti /
+                      altezza target × 100`
+
+                    **Classificazione del morfotipo** (solo sull'indice stimato da adulto)
+                    - Sotto 51%: LONGILINEO
+                    - Da 51% a 53% inclusi: NORMOLINEO
+                    - Sopra 53%: BREVILINEO
+
+                    **Esempio numerico** (valori predefiniti dell'app, maschio di 10 anni)
+                    - Indice attuale: 70.0 / 140.0 × 100 = 50.0%
+                    - Lunghezza attuale degli arti inferiori: 140.0 − 70.0 = 70.0 cm
+                    - Lunghezza target degli arti inferiori: 70.0 × 1.31 = 91.7 cm
+                    - Altezza target da adulti (Khamis-Roche): 178.9 cm
+                    - Altezza target da seduti: 178.9 − 91.7 = 87.2 cm
+                    - Indice stimato: 87.2 / 178.9 × 100 = 48.7% → LONGILINEO
+
                     ### Note
                     - Tutte le misurazioni devono essere effettuate correttamente.
                     - L'età deve essere espressa in anni decimali.
@@ -731,6 +850,9 @@ app_ui = ui.page_sidebar(
                     - Khamis-Roche è applicabile da 4.0 a 17.5 anni.
                     - I moltiplicatori per l'altezza coprono 0–18 anni,
                       quelli per gli arti inferiori 0–17 anni.
+                    - L'indice di Cormic combina l'altezza target di Khamis-Roche
+                      con la lunghezza target degli arti inferiori (Multiplier
+                      Method): è quindi calcolabile solo tra 4.0 e 17.0 anni.
                     """
                 )
             ),
@@ -771,13 +893,10 @@ def server(input, output, session):
         if any(v is None for v in (altezza, peso, altezza_seduto, eta, lunghezza_gamba)):
             return None
 
-        # Termine di interazione: lunghezza arti inferiori x altezza da seduto
-        interazione = lunghezza_gamba * altezza_seduto
-
         if sesso == "M":
             offset = (
                 -9.236
-                + (0.0002708 * interazione)
+                + (0.0002708 * lunghezza_gamba * altezza_seduto)
                 - (0.001663 * eta * lunghezza_gamba)
                 + (0.007216 * eta * altezza_seduto)
                 + (0.02292 * peso / altezza * 100)
@@ -785,7 +904,7 @@ def server(input, output, session):
         else:
             offset = (
                 -9.376
-                + (0.0001882 * interazione)
+                + (0.0001882 * lunghezza_gamba * altezza_seduto)
                 + (0.0022 * eta * lunghezza_gamba)
                 + (0.005841 * eta * altezza_seduto)
                 - (0.002658 * eta * peso)
@@ -1051,6 +1170,83 @@ def server(input, output, session):
         ]
 
         return "\n".join(righe)
+
+    # ------------------------------------------------------------------
+    # Morfotipo
+    # ------------------------------------------------------------------
+
+    @render.text
+    def indice_cormic_attuale():
+        r = calcola_indice_cormic_attuale(
+            leggi("altezza"),
+            leggi("altezza_seduto"),
+        )
+
+        if r is None:
+            return (
+                f"{MSG_DATI_NON_VALIDI} "
+                f"(l'altezza da seduto deve essere inferiore all'altezza)"
+            )
+
+        return (
+            f"Indice di Cormic attuale: {r['indice']:.1f}%\n"
+            f"\n"
+            f"Altezza da seduto: {r['altezza_seduto_cm']:.1f} cm\n"
+            f"Altezza: {r['altezza_cm']:.1f} cm\n"
+            f"\n"
+            f"Formula: Indice di Cormic = altezza da seduto / altezza × 100\n"
+            f"Nota: la classificazione del morfotipo è riportata solo per "
+            f"l'indice stimato da adulto."
+        )
+
+    @render.text
+    def indice_cormic():
+        altezza = calcola_khamis_roche()      # altezza target da adulti
+        arti = calcola_arti_inferiori_target()  # lunghezza target arti inferiori
+
+        problemi = []
+
+        if not altezza:
+            problemi.append(
+                f"Altezza target (Khamis-Roche): {MSG_DATI_NON_VALIDI.lower()}"
+            )
+        elif not altezza.get("valid", False):
+            problemi.append(altezza["reason"])
+
+        if not arti:
+            problemi.append(
+                f"Lunghezza target degli arti inferiori: {MSG_DATI_NON_VALIDI.lower()}"
+            )
+        elif not arti.get("valid", False):
+            problemi.append(arti["reason"])
+
+        if problemi:
+            return "\n".join(problemi)
+
+        r = calcola_indice_cormic(altezza["predicted_cm"], arti["target_cm"])
+
+        if r is None:
+            return (
+                "Valori target incoerenti: la lunghezza target degli arti inferiori "
+                "non è inferiore all'altezza target."
+            )
+
+        return (
+            f"Indice di Cormic: {r['indice']:.1f}%\n"
+            f"Morfotipo: {r['morfotipo']}\n"
+            f"\n"
+            f"Altezza target da adulti (Khamis-Roche): {altezza['predicted_cm']:.1f} cm\n"
+            f"Lunghezza target degli arti inferiori (Multiplier Method): "
+            f"{arti['target_cm']:.1f} cm\n"
+            f"Altezza target da seduti: {r['altezza_seduti_cm']:.1f} cm\n"
+            f"\n"
+            f"Formula: Indice di Cormic = altezza target da seduti / "
+            f"altezza target totale × 100\n"
+            f"(altezza target da seduti = altezza target − lunghezza target "
+            f"degli arti inferiori)\n"
+            f"Classificazione: < 51% longilineo; 51–53% normolineo; "
+            f"> 53% brevilineo"
+        )
 
 
 app = App(app_ui, server)
