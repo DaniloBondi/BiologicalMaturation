@@ -109,10 +109,12 @@ MILLS_NELSON_BOYS = {
 
 MILLS_NELSON_GIRLS = {
     0.00: 3.290, 0.08: 3.201, 0.17: 3.111, 0.25: 3.022, 0.33: 2.932, 0.42: 2.843,
-    0.50: 2.753, 0.58: 1.965, 0.67: 2.574, 0.75: 2.485, 0.83: 2.395, 0.92: 2.306,
+    # 0.58 corretto (era 1.965): valore coerente con la serie decrescente
+    0.50: 2.753, 0.58: 2.664, 0.67: 2.574, 0.75: 2.485, 0.83: 2.395, 0.92: 2.306,
     1.00: 2.216, 1.08: 2.190, 1.17: 2.166, 1.25: 2.141, 1.33: 2.116, 1.42: 2.091,
     1.50: 2.067, 1.58: 2.042, 1.67: 2.017, 1.75: 1.992, 1.83: 1.967, 1.92: 1.942,
-    2.00: 1.917, 2.08: 1.902, 2.17: 1.887, 2.25: 1.987, 2.33: 1.856, 2.42: 1.841,
+    # 2.25 corretto (era 1.987): valore coerente con la serie decrescente
+    2.00: 1.917, 2.08: 1.902, 2.17: 1.887, 2.25: 1.872, 2.33: 1.856, 2.42: 1.841,
     2.50: 1.826, 2.58: 1.811, 2.67: 1.796, 2.75: 1.781, 2.83: 1.765, 2.92: 1.750,
     3.00: 1.735, 3.08: 1.726, 3.17: 1.716, 3.25: 1.707, 3.33: 1.697, 3.42: 1.688,
     3.50: 1.679, 3.58: 1.669, 3.67: 1.660, 3.75: 1.650, 3.83: 1.641, 3.92: 1.631,
@@ -146,6 +148,112 @@ MILLS_NELSON_GIRLS = {
     17.50: 1.000, 17.58: 1.000, 17.67: 1.000, 17.75: 1.000, 17.83: 1.000, 17.92: 1.000,
     18.00: 1.000,
 }
+
+
+def _table_from_months(values):
+    """
+    Costruisce {età in anni: M} a partire da una lista di moltiplicatori
+    indicizzata per mese di età (posizione 0 = 0 mesi, 1 = 1 mese, ...).
+    """
+    return {month / 12: m for month, m in enumerate(values)}
+
+
+# Moltiplicatori per la lunghezza degli arti inferiori.
+# Una riga per anno di età (12 valori = 12 mesi); l'ultimo valore è a 17 anni (204 mesi).
+_LOWER_LIMB_BOYS_MONTHLY = [
+    5.080, 4.927, 4.773, 4.620, 4.467, 4.313, 4.160, 4.007, 3.853, 3.700, 3.547, 3.393,  # 0
+    3.240, 3.186, 3.132, 3.078, 3.023, 2.969, 2.915, 2.861, 2.807, 2.753, 2.698, 2.644,  # 1
+    2.590, 2.560, 2.530, 2.500, 2.470, 2.440, 2.410, 2.380, 2.350, 2.320, 2.290, 2.260,  # 2
+    2.230, 2.211, 2.192, 2.173, 2.153, 2.134, 2.115, 2.096, 2.077, 2.058, 2.038, 2.019,  # 3
+    2.000, 1.985, 1.970, 1.955, 1.940, 1.925, 1.910, 1.895, 1.880, 1.865, 1.850, 1.835,  # 4
+    1.820, 1.808, 1.795, 1.783, 1.770, 1.758, 1.745, 1.733, 1.720, 1.708, 1.695, 1.683,  # 5
+    1.670, 1.662, 1.653, 1.645, 1.637, 1.628, 1.620, 1.612, 1.603, 1.595, 1.587, 1.578,  # 6
+    1.570, 1.562, 1.553, 1.545, 1.537, 1.528, 1.520, 1.512, 1.503, 1.495, 1.487, 1.478,  # 7
+    1.470, 1.463, 1.455, 1.448, 1.440, 1.433, 1.425, 1.418, 1.410, 1.403, 1.395, 1.388,  # 8
+    1.380, 1.374, 1.368, 1.363, 1.357, 1.351, 1.345, 1.339, 1.333, 1.328, 1.322, 1.316,  # 9
+    1.310, 1.304, 1.298, 1.293, 1.287, 1.281, 1.275, 1.269, 1.263, 1.258, 1.252, 1.246,  # 10
+    1.240, 1.235, 1.230, 1.225, 1.220, 1.215, 1.210, 1.205, 1.200, 1.195, 1.190, 1.185,  # 11
+    1.180, 1.176, 1.172, 1.168, 1.163, 1.159, 1.155, 1.151, 1.147, 1.143, 1.138, 1.134,  # 12
+    1.130, 1.126, 1.122, 1.118, 1.113, 1.109, 1.105, 1.101, 1.097, 1.093, 1.088, 1.084,  # 13
+    1.080, 1.077, 1.073, 1.070, 1.067, 1.063, 1.060, 1.057, 1.053, 1.050, 1.047, 1.043,  # 14
+    1.040, 1.038, 1.035, 1.033, 1.030, 1.028, 1.025, 1.023, 1.020, 1.018, 1.015, 1.013,  # 15
+    1.010, 1.009, 1.008, 1.008, 1.007, 1.006, 1.005, 1.004, 1.003, 1.003, 1.002, 1.001,  # 16
+    1.000,                                                                               # 17
+]
+
+_LOWER_LIMB_GIRLS_MONTHLY = [
+    4.630, 4.492, 4.353, 4.215, 4.077, 3.938, 3.800, 3.662, 3.523, 3.385, 3.247, 3.108,  # 0
+    2.970, 2.922, 2.873, 2.825, 2.777, 2.728, 2.680, 2.632, 2.583, 2.535, 2.487, 2.438,  # 1
+    2.390, 2.362, 2.333, 2.305, 2.277, 2.248, 2.220, 2.192, 2.163, 2.135, 2.107, 2.078,  # 2
+    # 3 anni + 1 mese: 2.032 (nella tabella originale era riportato 3.032, refuso)
+    2.050, 2.032, 2.013, 1.995, 1.977, 1.958, 1.940, 1.922, 1.903, 1.885, 1.867, 1.848,  # 3
+    1.830, 1.816, 1.802, 1.788, 1.773, 1.759, 1.745, 1.731, 1.717, 1.703, 1.688, 1.674,  # 4
+    1.660, 1.648, 1.635, 1.623, 1.610, 1.598, 1.585, 1.573, 1.560, 1.548, 1.535, 1.523,  # 5
+    1.510, 1.503, 1.497, 1.490, 1.483, 1.477, 1.470, 1.463, 1.457, 1.450, 1.443, 1.437,  # 6
+    1.430, 1.422, 1.413, 1.405, 1.397, 1.388, 1.380, 1.372, 1.363, 1.355, 1.347, 1.338,  # 7
+    1.330, 1.324, 1.318, 1.313, 1.307, 1.301, 1.295, 1.289, 1.283, 1.278, 1.272, 1.266,  # 8
+    1.260, 1.254, 1.248, 1.243, 1.237, 1.231, 1.225, 1.219, 1.213, 1.208, 1.202, 1.196,  # 9
+    1.190, 1.185, 1.180, 1.175, 1.170, 1.165, 1.160, 1.155, 1.150, 1.145, 1.140, 1.135,  # 10
+    1.130, 1.125, 1.120, 1.115, 1.110, 1.105, 1.100, 1.095, 1.090, 1.085, 1.080, 1.075,  # 11
+    1.070, 1.067, 1.063, 1.060, 1.057, 1.053, 1.050, 1.047, 1.043, 1.040, 1.037, 1.033,  # 12
+    1.030, 1.028, 1.025, 1.023, 1.020, 1.018, 1.015, 1.013, 1.010, 1.008, 1.005, 1.003,  # 13
+    1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000,  # 14
+    1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000,  # 15
+    1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000,  # 16
+    1.000,                                                                               # 17
+]
+
+LOWER_LIMB_MULTIPLIER_BOYS = _table_from_months(_LOWER_LIMB_BOYS_MONTHLY)
+LOWER_LIMB_MULTIPLIER_GIRLS = _table_from_months(_LOWER_LIMB_GIRLS_MONTHLY)
+
+
+# Intervalli di età (anni) entro cui i metodi PHV sono stati sviluppati.
+# Fuori intervallo il calcolo viene eseguito, ma con un avviso.
+# Valori indicativi: modificali se i paper originali indicano range diversi.
+ETA_VALIDITA_PHV = {
+    "mirwald": (8.0, 16.0),
+    "moore": (8.0, 16.0),
+    "fransen": (8.0, 16.0),
+}
+
+# Limiti accettati per gli input (coerenti con min/max dei campi nella UI).
+LIMITI = {
+    "eta": (0.0, 18.0),
+    "altezza": (50.0, 220.0),
+    "peso": (10.0, 150.0),
+    "altezza_seduto": (30.0, 120.0),
+    "altezza_madre": (120.0, 200.0),
+    "altezza_padre": (130.0, 220.0),
+}
+
+MSG_DATI_NON_VALIDI = "Dati insufficienti o non validi per il calcolo"
+
+
+def _valore(valore, minimo, massimo):
+    """Converte in float e restituisce None se mancante, NaN o fuori range."""
+    try:
+        v = float(valore)
+    except (TypeError, ValueError):
+        return None
+
+    if math.isnan(v) or v < minimo or v > massimo:
+        return None
+
+    return v
+
+
+def _avviso_eta(eta, metodo):
+    """Restituisce un avviso se l'età è fuori dal range di sviluppo del metodo."""
+    minimo, massimo = ETA_VALIDITA_PHV[metodo]
+
+    if eta < minimo or eta > massimo:
+        return (
+            f"Attenzione: l'età ({eta:.1f} anni) è fuori dall'intervallo "
+            f"per cui il metodo è stato sviluppato ({minimo:.0f}–{massimo:.0f} anni): "
+            f"il risultato è poco affidabile."
+        )
+
+    return None
 
 
 def _interpolate_coefficients(age, table):
@@ -208,7 +316,7 @@ def predict_khamis_roche(
         sex                    "M" or "F"
 
     Output:
-        dict or None if age is outside the model range.
+        dict or None if inputs are missing/invalid.
     """
 
     values = [
@@ -231,7 +339,10 @@ def predict_khamis_roche(
     except (TypeError, ValueError):
         return None
 
-    if any(v <= 0 for v in values):
+    if age_years < 0 or any(
+        v <= 0
+        for v in (height_cm, weight_kg, mother_height_cm, father_height_cm)
+    ):
         return None
 
     sex = str(sex).upper()
@@ -280,6 +391,7 @@ def predict_khamis_roche(
         "predicted_in": predicted_in,
         "percent_adult": percent_adult,
         "midparent_cm": midparent_in * 2.54,
+        "current_cm": height_cm,
         "coefficients": coefficients,
         "age": age_years,
         "sex": sex,
@@ -296,7 +408,7 @@ def predict_mills_nelson_multiplier(height_cm, age_years, sex):
         sex                    "M" or "F"
 
     Output:
-        dict or None if age is outside the model range.
+        dict or None if inputs are missing/invalid.
     """
 
     if height_cm is None or age_years is None:
@@ -334,9 +446,104 @@ def predict_mills_nelson_multiplier(height_cm, age_years, sex):
         "valid": True,
         "predicted_cm": predicted_cm,
         "multiplier": multiplier,
+        "current_cm": height_cm,
         "age": age_years,
         "sex": sex,
     }
+
+
+def predict_lower_limb_target(leg_length_cm, age_years, sex):
+    """
+    Lunghezza target degli arti inferiori.
+
+        lunghezza target = lunghezza attuale degli arti inferiori x M
+
+    dove M è il moltiplicatore specifico per età e sesso della tabella
+    dedicata agli arti inferiori (0–17 anni).
+
+    Output:
+        dict or None if inputs are missing/invalid.
+    """
+
+    if leg_length_cm is None or age_years is None:
+        return None
+
+    try:
+        leg_length_cm = float(leg_length_cm)
+        age_years = float(age_years)
+    except (TypeError, ValueError):
+        return None
+
+    if leg_length_cm <= 0 or age_years < 0:
+        return None
+
+    sex = str(sex).upper()
+
+    if sex not in ("M", "F"):
+        return None
+
+    table = LOWER_LIMB_MULTIPLIER_BOYS if sex == "M" else LOWER_LIMB_MULTIPLIER_GIRLS
+    multiplier = _interpolate_multiplier(age_years, table)
+
+    if multiplier is None:
+        return {
+            "valid": False,
+            "reason": (
+                "I moltiplicatori per gli arti inferiori sono disponibili "
+                "nell'intervallo 0.0–17.0 anni."
+            ),
+        }
+
+    return {
+        "valid": True,
+        "target_cm": leg_length_cm * multiplier,
+        "multiplier": multiplier,
+        "current_cm": leg_length_cm,
+        "age": age_years,
+        "sex": sex,
+    }
+
+
+def _testo_phv(r):
+    """Testo per le schede 'Peak Height Velocity'."""
+    if r is None:
+        return MSG_DATI_NON_VALIDI
+
+    if "errore" in r:
+        return r["errore"]
+
+    testo = (
+        f"Età al PHV: {r['phv_age']:.2f} anni\n"
+        f"Maturity Offset: {r['offset']:.2f} anni\n"
+        f"Metodo: {r['metodo']}"
+    )
+
+    if r.get("avviso"):
+        testo += f"\n{r['avviso']}"
+
+    return testo
+
+
+def _testo_offset(r):
+    """Testo per le schede 'Maturity Offset'."""
+    if r is None:
+        return MSG_DATI_NON_VALIDI
+
+    if "errore" in r:
+        return r["errore"]
+
+    stato = "Post-PHV" if r["offset"] > 0 else "Pre-PHV"
+
+    testo = (
+        f"Maturity Offset: {r['offset']:.2f} anni\n"
+        f"Stato: {stato}\n"
+        f"(Valore positivo = dopo PHV, negativo = prima PHV)"
+    )
+
+    if r.get("avviso"):
+        testo += f"\n{r['avviso']}"
+
+    return testo
 
 
 app_ui = ui.page_sidebar(
@@ -388,13 +595,16 @@ app_ui = ui.page_sidebar(
             step=0.1,
         ),
 
-        ui.input_numeric(
-            "lunghezza_gamba",
-            "Lunghezza gamba (cm)",
-            value=70,
-            min=30,
-            max=120,
-            step=0.1,
+        ui.div(
+            ui.tags.label(
+                "Lunghezza degli arti inferiori (cm)",
+                class_="form-label",
+            ),
+            ui.output_text_verbatim("arti_inferiori_txt"),
+            ui.p(
+                "Calcolata come altezza − altezza da seduto",
+                class_="text-muted small",
+            ),
         ),
 
         ui.input_numeric(
@@ -460,7 +670,7 @@ app_ui = ui.page_sidebar(
         ),
 
         ui.nav_panel(
-            "Altezza da Adulto",
+            "Altezza target",
 
             ui.card(
                 ui.card_header("Metodo Khamis-Roche"),
@@ -502,18 +712,25 @@ app_ui = ui.page_sidebar(
                     - Soggetto seduto con schiena dritta
                     - Misurazione dalla sommità del capo alla superficie di seduta
 
-                    **4. Lunghezza della Gamba**
-                    - Altezza totale - altezza da seduto
-                    - Oppure misurata direttamente
+                    **4. Lunghezza degli Arti Inferiori**
+                    - Calcolata automaticamente: altezza − altezza da seduto
+                    - Non va inserita manualmente
 
                     **5. Altezza dei Genitori**
-                    - Altezza dichiarata o misurata di madre e padre
-                    - Necessaria per Khamis-Roche
+                    - Necessaria per Khamis-Roche e per la media genitoriale
+                    - Meglio se misurata: le altezze dichiarate dai genitori
+                      tendono a essere sovrastimate
 
                     ### Note
                     - Tutte le misurazioni devono essere effettuate correttamente.
                     - L'età deve essere espressa in anni decimali.
+                    - I metodi PHV (Mirwald, Moore, Fransen) sono affidabili
+                      solo nell'intervallo di età in cui sono stati sviluppati;
+                      fuori intervallo compare un avviso.
+                    - Fransen (2018) è validato solo per i maschi.
                     - Khamis-Roche è applicabile da 4.0 a 17.5 anni.
+                    - I moltiplicatori per l'altezza coprono 0–18 anni,
+                      quelli per gli arti inferiori 0–17 anni.
                     """
                 )
             ),
@@ -524,263 +741,243 @@ app_ui = ui.page_sidebar(
 
 def server(input, output, session):
 
+    def leggi(nome):
+        """Legge un input numerico validandolo; None se mancante o fuori range."""
+        minimo, massimo = LIMITI[nome]
+        return _valore(input[nome](), minimo, massimo)
+
     @reactive.calc
-    def calcola_mirwald():
-        try:
-            altezza = float(input.altezza())
-            peso = float(input.peso())
-            altezza_seduto = float(input.altezza_seduto())
-            lunghezza_gamba = float(input.lunghezza_gamba())
-            eta = float(input.eta())
-            sesso = input.sesso()
+    def lunghezza_arti_inferiori():
+        altezza = leggi("altezza")
+        altezza_seduto = leggi("altezza_seduto")
 
-            interazione = altezza * lunghezza_gamba
-
-            if sesso == "M":
-                offset = (
-                    -9.236
-                    + (0.0002708 * interazione)
-                    - (0.001663 * eta * lunghezza_gamba)
-                    + (0.007216 * eta * altezza_seduto)
-                    + (0.02292 * peso / altezza * 100)
-                )
-            else:
-                offset = (
-                    -9.376
-                    + (0.0001882 * interazione)
-                    + (0.0022 * eta * lunghezza_gamba)
-                    + (0.005841 * eta * altezza_seduto)
-                    - (0.002658 * eta * peso)
-                    + (0.07693 * peso / altezza * 100)
-                )
-
-            phv_age = eta - offset
-
-            return {
-                "offset": offset,
-                "phv_age": phv_age,
-                "metodo": "Mirwald et al. (2002)",
-            }
-
-        except (TypeError, ValueError, ZeroDivisionError):
+        if altezza is None or altezza_seduto is None:
             return None
 
+        arti_inferiori = altezza - altezza_seduto
+
+        # L'altezza da seduto deve essere inferiore all'altezza totale.
+        return arti_inferiori if arti_inferiori > 0 else None
+
+    @reactive.calc
+    def calcola_mirwald():
+        altezza = leggi("altezza")
+        peso = leggi("peso")
+        altezza_seduto = leggi("altezza_seduto")
+        eta = leggi("eta")
+        lunghezza_gamba = lunghezza_arti_inferiori()
+        sesso = input.sesso()
+
+        if any(v is None for v in (altezza, peso, altezza_seduto, eta, lunghezza_gamba)):
+            return None
+
+        # Termine di interazione: lunghezza arti inferiori x altezza da seduto
+        interazione = lunghezza_gamba * altezza_seduto
+
+        if sesso == "M":
+            offset = (
+                -9.236
+                + (0.0002708 * interazione)
+                - (0.001663 * eta * lunghezza_gamba)
+                + (0.007216 * eta * altezza_seduto)
+                + (0.02292 * peso / altezza * 100)
+            )
+        else:
+            offset = (
+                -9.376
+                + (0.0001882 * interazione)
+                + (0.0022 * eta * lunghezza_gamba)
+                + (0.005841 * eta * altezza_seduto)
+                - (0.002658 * eta * peso)
+                + (0.07693 * peso / altezza * 100)
+            )
+
+        return {
+            "offset": offset,
+            "phv_age": eta - offset,
+            "metodo": "Mirwald et al. (2002)",
+            "avviso": _avviso_eta(eta, "mirwald"),
+        }
 
     @reactive.calc
     def calcola_moore():
-        try:
-            altezza = float(input.altezza())
-            altezza_seduto = float(input.altezza_seduto())
-            eta = float(input.eta())
-            sesso = input.sesso()
+        altezza = leggi("altezza")
+        altezza_seduto = leggi("altezza_seduto")
+        eta = leggi("eta")
+        sesso = input.sesso()
 
-            if sesso == "M":
-                offset = -8.128741 - 0.2683693 + (0.0070346 * eta * altezza_seduto)
-            else:
-                offset = -7.709133 + (0.0042232 * eta * altezza)
-
-            phv_age = eta - offset
-
-            return {
-                "offset": offset,
-                "phv_age": phv_age,
-                "metodo": "Moore et al. (2015)",
-            }
-
-        except (TypeError, ValueError):
+        if eta is None:
             return None
 
+        # Ogni equazione usa solo la propria variabile antropometrica
+        if sesso == "M":
+            if altezza_seduto is None:
+                return None
+            offset = -8.128741 - 0.2683693 + (0.0070346 * eta * altezza_seduto)
+        else:
+            if altezza is None:
+                return None
+            offset = -7.709133 + (0.0042232 * eta * altezza)
+
+        return {
+            "offset": offset,
+            "phv_age": eta - offset,
+            "metodo": "Moore et al. (2015)",
+            "avviso": _avviso_eta(eta, "moore"),
+        }
 
     @reactive.calc
     def calcola_fransen():
-        try:
-            altezza = float(input.altezza())       
-            peso = float(input.peso())            
-            eta = float(input.eta())             
-            sesso = input.sesso()                
-            lunghezza_gamba = float(input.lunghezza_gamba())
-
-            if sesso == "M":
-                # Calcolo del Maturity Ratio (Fransen et al., 2018)
-                maturity_ratio = (
-                    6.986547255416 
-                    + (0.115802846632 * eta) 
-                    + (0.001450825199 * (eta ** 2)) 
-                    + (0.004518400406 * peso) 
-                    - (0.000034086447 * (peso ** 2)) 
-                    - (0.151951447289 * altezza) 
-                    + (0.000932836659 * (altezza ** 2)) 
-                    - (0.000001656585 * (altezza ** 3)) 
-                    + (0.032198263733 * lunghezza_gamba) 
-                    - (0.000269025264 * (lunghezza_gamba ** 2)) 
-                    - (0.000760897942 * (altezza * eta))
-                )
-            else:
-                raise ValueError("L'algoritmo di Fransen (2018) è validato solo per i maschi.")
-
-            phv_age = eta / maturity_ratio
-        
-            # 2. Calcola il Maturity Offset (Età attuale - Età al PHV)
-            # Risultato negativo = pre-PHV; Positivo = post-PHV
-            offset = eta - phv_age
-
+        if input.sesso() != "M":
             return {
-                "maturity_ratio": round(maturity_ratio, 4),
-                "offset": round(offset, 4),
-                "phv_age": round(phv_age, 4),
-                "metodo": "Fransen et al. (2018)"
+                "errore": "Il metodo di Fransen (2018) è validato solo per i maschi."
             }
 
-        except (TypeError, ValueError, AttributeError) as e:
-            print(f"Errore nel calcolo: {e}")
+        altezza = leggi("altezza")
+        peso = leggi("peso")
+        eta = leggi("eta")
+        lunghezza_gamba = lunghezza_arti_inferiori()
+
+        if any(v is None for v in (altezza, peso, eta, lunghezza_gamba)):
             return None
-    
+
+        # Calcolo del Maturity Ratio (Fransen et al., 2018)
+        maturity_ratio = (
+            6.986547255416
+            + (0.115802846632 * eta)
+            + (0.001450825199 * (eta ** 2))
+            + (0.004518400406 * peso)
+            - (0.000034086447 * (peso ** 2))
+            - (0.151951447289 * altezza)
+            + (0.000932836659 * (altezza ** 2))
+            - (0.000001656585 * (altezza ** 3))
+            + (0.032198263733 * lunghezza_gamba)
+            - (0.000269025264 * (lunghezza_gamba ** 2))
+            - (0.000760897942 * (altezza * eta))
+        )
+
+        if maturity_ratio <= 0:
+            return {
+                "errore": (
+                    "Il modello di Fransen non produce un valore valido "
+                    "con i dati inseriti."
+                )
+            }
+
+        phv_age = eta / maturity_ratio
+
+        # Maturity Offset = età attuale - età al PHV
+        # Risultato negativo = pre-PHV; positivo = post-PHV
+        offset = eta - phv_age
+
+        return {
+            "maturity_ratio": maturity_ratio,
+            "offset": offset,
+            "phv_age": phv_age,
+            "metodo": "Fransen et al. (2018)",
+            "avviso": _avviso_eta(eta, "fransen"),
+        }
 
     @reactive.calc
     def calcola_khamis_roche():
         return predict_khamis_roche(
-            height_cm=input.altezza(),
-            weight_kg=input.peso(),
-            age_years=input.eta(),
-            mother_height_cm=input.altezza_madre(),
-            father_height_cm=input.altezza_padre(),
+            height_cm=leggi("altezza"),
+            weight_kg=leggi("peso"),
+            age_years=leggi("eta"),
+            mother_height_cm=leggi("altezza_madre"),
+            father_height_cm=leggi("altezza_padre"),
             sex=input.sesso(),
         )
 
-
     @reactive.calc
     def calcola_media_genitori():
-        try:
-            madre = float(input.altezza_madre())
-            padre = float(input.altezza_padre())
-            sesso = input.sesso()
+        madre = leggi("altezza_madre")
+        padre = leggi("altezza_padre")
 
-            if sesso == "M":
-                altezza_prevista = (padre + madre + 13) / 2
-            else:
-                altezza_prevista = (padre + madre - 13) / 2
-
-            return {
-                "altezza_prevista": altezza_prevista,
-                "metodo": "Media Genitoriale",
-            }
-
-        except (TypeError, ValueError):
+        if madre is None or padre is None:
             return None
 
+        if input.sesso() == "M":
+            altezza_prevista = (padre + madre + 13) / 2
+        else:
+            altezza_prevista = (padre + madre - 13) / 2
+
+        return {
+            "altezza_prevista": altezza_prevista,
+            "metodo": "Media Genitoriale",
+        }
 
     @reactive.calc
     def calcola_mills_nelson():
         return predict_mills_nelson_multiplier(
-            height_cm=input.altezza(),
-            age_years=input.eta(),
+            height_cm=leggi("altezza"),
+            age_years=leggi("eta"),
             sex=input.sesso(),
         )
 
+    @reactive.calc
+    def calcola_arti_inferiori_target():
+        return predict_lower_limb_target(
+            leg_length_cm=lunghezza_arti_inferiori(),
+            age_years=leggi("eta"),
+            sex=input.sesso(),
+        )
 
-    @output
+    # ------------------------------------------------------------------
+    # Sidebar
+    # ------------------------------------------------------------------
+
+    @render.text
+    def arti_inferiori_txt():
+        arti_inferiori = lunghezza_arti_inferiori()
+
+        if arti_inferiori is None:
+            return "Non valida: l'altezza da seduto deve essere inferiore all'altezza"
+
+        return f"{arti_inferiori:.1f} cm"
+
+    # ------------------------------------------------------------------
+    # Peak Height Velocity
+    # ------------------------------------------------------------------
+
     @render.text
     def phv_mirwald():
-        r = calcola_mirwald()
+        return _testo_phv(calcola_mirwald())
 
-        if r:
-            return (
-                f"Età al PHV: {r['phv_age']:.2f} anni\n"
-                f"Maturity Offset: {r['offset']:.2f} anni\n"
-                f"Metodo: {r['metodo']}"
-            )
-
-        return "Dati insufficienti per il calcolo"
-
-
-    @output
     @render.text
     def phv_moore():
-        r = calcola_moore()
+        return _testo_phv(calcola_moore())
 
-        if r:
-            return (
-                f"Età al PHV: {r['phv_age']:.2f} anni\n"
-                f"Maturity Offset: {r['offset']:.2f} anni\n"
-                f"Metodo: {r['metodo']}"
-            )
-
-        return "Dati insufficienti per il calcolo"
-
-
-    @output
     @render.text
     def phv_fransen():
-        r = calcola_fransen()
+        return _testo_phv(calcola_fransen())
 
-        if r:
-            return (
-                f"Età al PHV: {r['phv_age']:.2f} anni\n"
-                f"Maturity Offset: {r['offset']:.2f} anni\n"
-                f"Metodo: {r['metodo']}"
-            )
+    # ------------------------------------------------------------------
+    # Maturity Offset
+    # ------------------------------------------------------------------
 
-        return "Dati insufficienti per il calcolo"
-
-
-    @output
     @render.text
     def offset_mirwald():
-        r = calcola_mirwald()
+        return _testo_offset(calcola_mirwald())
 
-        if r:
-            stato = "Post-PHV" if r["offset"] > 0 else "Pre-PHV"
-
-            return (
-                f"Maturity Offset: {r['offset']:.2f} anni\n"
-                f"Stato: {stato}\n"
-                f"(Valore positivo = dopo PHV, negativo = prima PHV)"
-            )
-
-        return "Dati insufficienti per il calcolo"
-
-
-    @output
     @render.text
     def offset_moore():
-        r = calcola_moore()
+        return _testo_offset(calcola_moore())
 
-        if r:
-            stato = "Post-PHV" if r["offset"] > 0 else "Pre-PHV"
-
-            return (
-                f"Maturity Offset: {r['offset']:.2f} anni\n"
-                f"Stato: {stato}\n"
-                f"(Valore positivo = dopo PHV, negativo = prima PHV)"
-            )
-
-        return "Dati insufficienti per il calcolo"
-
-
-    @output
     @render.text
     def offset_fransen():
-        r = calcola_fransen()
+        return _testo_offset(calcola_fransen())
 
-        if r:
-            stato = "Post-PHV" if r["offset"] > 0 else "Pre-PHV"
+    # ------------------------------------------------------------------
+    # Altezza target
+    # ------------------------------------------------------------------
 
-            return (
-                f"Maturity Offset: {r['offset']:.2f} anni\n"
-                f"Stato: {stato}\n"
-                f"(Valore positivo = dopo PHV, negativo = prima PHV)"
-            )
-
-        return "Dati insufficienti per il calcolo"
-
-
-    @output
     @render.text
     def altezza_khamis():
         r = calcola_khamis_roche()
 
         if not r:
-            return "Dati insufficienti per il calcolo"
+            return MSG_DATI_NON_VALIDI
 
         if not r.get("valid", False):
             return r["reason"]
@@ -788,16 +985,16 @@ def server(input, output, session):
         return (
             f"Altezza adulta prevista: {r['predicted_cm']:.1f} cm\n"
             f"Stima in pollici: {r['predicted_in']:.1f} in\n"
-            f"Altezza attuale: {input.altezza():.1f} cm\n"
+            f"Altezza attuale: {r['current_cm']:.1f} cm\n"
             f"Percentuale dell'altezza adulta stimata: "
             f"{r['percent_adult']:.1f}%\n"
             f"Media altezze genitori: {r['midparent_cm']:.1f} cm\n"
             f"Metodo: Khamis-Roche (1994; erratum 1995)\n"
-            f"Nota: i coefficienti sono specifici per sesso ed età."
+            f"Nota: i coefficienti sono specifici per sesso ed età.\n"
+            f"Nota: usare altezze dei genitori misurate; quelle dichiarate "
+            f"tendono a essere sovrastimate."
         )
 
-
-    @output
     @render.text
     def altezza_media_genitori():
         r = calcola_media_genitori()
@@ -810,28 +1007,50 @@ def server(input, output, session):
                 f"(Target genetico basato sui genitori)"
             )
 
-        return "Dati insufficienti per il calcolo"
+        return MSG_DATI_NON_VALIDI
 
-
-    @output
     @render.text
     def altezza_mills_nelson():
-        r = calcola_mills_nelson()
+        altezza = calcola_mills_nelson()
+        arti = calcola_arti_inferiori_target()
 
-        if not r:
-            return "Dati insufficienti per il calcolo"
+        # --- Altezza target ---
+        if not altezza:
+            righe = [f"Altezza target: {MSG_DATI_NON_VALIDI.lower()}"]
+        elif not altezza.get("valid", False):
+            righe = [altezza["reason"]]
+        else:
+            righe = [
+                f"Altezza prevista da adulto: {altezza['predicted_cm']:.1f} cm",
+                f"Moltiplicatore (M): {altezza['multiplier']:.4f}",
+                f"Altezza attuale: {altezza['current_cm']:.1f} cm",
+                "Formula: Altezza prevista = Altezza attuale × M",
+            ]
 
-        if not r.get("valid", False):
-            return r["reason"]
+        righe.append("")
 
-        return (
-            f"Altezza prevista da adulto: {r['predicted_cm']:.1f} cm\n"
-            f"Moltiplicatore (M): {r['multiplier']:.4f}\n"
-            f"Altezza attuale: {input.altezza():.1f} cm\n"
-            f"Metodo: Moltiplicatore di Bailey et al. (2000) "
-            f"secondo versione aggiornata da Mills & Nelson (2016)\n"
-            f"Formula: Altezza prevista = Altezza attuale × M"
-        )
+        # --- Lunghezza target degli arti inferiori ---
+        if not arti:
+            righe.append(
+                f"Lunghezza target degli arti inferiori: {MSG_DATI_NON_VALIDI.lower()}"
+            )
+        elif not arti.get("valid", False):
+            righe.append(arti["reason"])
+        else:
+            righe += [
+                f"Lunghezza target degli arti inferiori: {arti['target_cm']:.1f} cm",
+                f"Moltiplicatore arti inferiori (M): {arti['multiplier']:.4f}",
+                f"Lunghezza attuale degli arti inferiori: {arti['current_cm']:.1f} cm",
+                "Formula: Lunghezza target = Lunghezza degli arti inferiori × M",
+            ]
+
+        righe += [
+            "",
+            "Metodo: Moltiplicatore di Bailey et al. (2000) "
+            "secondo versione aggiornata da Mills & Nelson (2016)",
+        ]
+
+        return "\n".join(righe)
 
 
 app = App(app_ui, server)
